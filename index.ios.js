@@ -24,6 +24,7 @@ class Helloworld extends Component {
                 <Image source={pic} style={styles.image}/>
                 <Greeting text="Rexxa"/>
                 <Greeting text="Jaina"/>
+                <Text style={ [styles.text, styles.text2 ]}>it's ok!</Text>
             </View>
         );
     }
@@ -43,7 +44,7 @@ class Greeting extends Component {
         let showText = this.state.showText ? this.props.text : this.props.text.substr(1);
 
         return (
-            <Text>{showText}</Text>
+            <Text style={ styles.text }>{showText}</Text>
         );
     }
 }
@@ -53,7 +54,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#EEE',
+        backgroundColor: '#EEE'
+    },
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#f65131'
+    },
+    text2: {
+        color: '#333'
     },
     image: {
         marginTop: 20,
