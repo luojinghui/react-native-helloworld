@@ -1,5 +1,8 @@
-/**
- * Created by: Luojinghui/luojinghui424@gmail.com
- * Date: 2016/11/29
- * Time: 下午5:22
- */
+import {createRouter} from '@exponent/ex-navigation';
+import TestOne from './TestOne';
+
+const router = createRouter(() => ({
+    'TestOne': () => TestOne
+}));
+
+export default router;
