@@ -1,9 +1,4 @@
 /**
- * Created by: Luojinghui/luojinghui424@gmail.com
- * Date: 2016/11/29
- * Time: 下午5:56
- */
-/**
  * Sample React Native App
  * https://github.com/facebook/react-native
  * @flow
