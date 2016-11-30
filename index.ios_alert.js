@@ -13,9 +13,7 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
-    TouchableHighlight,
-    Dimension,
-    Platform
+    TouchableHighlight
 } from 'react-native';
 
 import {
@@ -26,10 +24,7 @@ import {
     TabNavigationItem as TabItem,
     DrawerNavigation,
     DrawerNavigationItem,
-    SlidingTabNavigation,
-    SlidingTabNavigationItem
 } from '@exponent/ex-navigation';
-import ListItem from './src/component/ListItem';
 
 const Router = createRouter(() => ({
     home: () => HomeScreen,
@@ -45,68 +40,50 @@ class Homes extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <SlidingTabNavigation
-                    id="tab"
-                    navigatorUID="tab"
-                    initialTab="first"
-                    renderLabel={this._renderLabel}
-                    barBackgroundColor="#333"
-                    indicatorStyle={styles.tabIndicator}>
-                    <SlidingTabNavigationItem id="first">
-                        <View style={styles.quoteContainer}>
-                            <Text style={styles.quoteMarks}>“</Text>
-                            <Text style={styles.quoteText}>R2D2, you know better than to trust a strange computer!</Text>
-                            <Text style={styles.quoteAuthor}>C3PO</Text>
-                            <TouchableOpacity onPress={this._goToSecondTab}>
-                                <Text style={{color: "#333"}}>this is icon</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </SlidingTabNavigationItem>
-                    <SlidingTabNavigationItem id="second">
-                        <View style={styles.quoteContainer}>
-                            <Text style={styles.quoteMarks}>“</Text>
-                            <Text style={styles.quoteText}>The best thing about a boolean is even if you are wrong, you are only off by a bit.</Text>
-                            <Text style={styles.quoteAuthor}>Bryan</Text>
-                            <TouchableOpacity onPress={this._goToFirstTab}>
-                                <Text style={{color: "#333"}}>this is icon2</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </SlidingTabNavigationItem>
-                </SlidingTabNavigation>
+            <View style={styles.common}>
+                <View style={styles.container}>
+                    <Image source={require('./src/image/sparkles.jpg')} style={styles.cover} />
+                    <View style={styles.buttonsContainer}>
+                        <TouchableOpacity style={styles.button} onPress={this._showAlert}>
+                            <Text style={styles.buttonText}>SHOW ALERT</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={this._showAnotherAlert}>
+                            <Text style={styles.buttonText}>SHOW ANOTHER ALERT</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={this._goBack}>
+                            <Text style={styles.buttonText}>GO BACK</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         )
     }
 
     static route = {
         navigationBar: {
-            title: 'Sliding Tab',
-            ...SlidingTabNavigation.navigationBarStyles,
-        },
+            visible: true,
+            title: 'home'
+        }
     }
 
-    _goToFirstTab = () => {
-        this.props.navigation.performAction(({ tabs, stacks }) => {
-            tabs('sliding').jumpToTab('first');
+    _showAlert = () => {
+        this.props.navigator.showLocalAlert('Tap on me to close!', {
+            text: { color: '#000' },
+            container: { backgroundColor: '#FFEB3B' },
         });
     };
 
-    _goToSecondTab = () => {
-        this.props.navigation.performAction(({ tabs, stacks }) => {
-            tabs('sliding').jumpToTab('second');
+    _showAnotherAlert = () => {
+        this.props.navigator.showLocalAlert('You love alert bars, huh?', {
+            text: { color: '#fff' },
+            container: { backgroundColor: '#F44336' },
         });
     };
 
-    _renderLabel = ({route}) => {
-        let title;
-        if (route.key === 'first') {
-            title = '行业';
-        } else if (route.key === 'second') {
-            title = '领域';
-        }
-
-        return <Text style={styles.tabLabel}>{title.toUpperCase()}</Text>;
+    _goBack = () => {
+        this.props.navigator.pop();
     };
+
 }
 
 class Profile extends Component {
@@ -129,9 +106,8 @@ class Profile extends Component {
 
     static route = {
         navigationBar: {
-            // visible: true,
-            tintColor: "#666"
-            // title: 'profile'
+            visible: true,
+            title: 'profile'
         }
     }
 }
@@ -155,7 +131,6 @@ class Posts extends Component {
     static route = {
         navigationBar: {
             visible: true,
-            tintColor: "#666",
             title: 'posts'
         }
     }
@@ -237,14 +212,33 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fafafa'
+    selectedTab: {
+        backgroundColor: '#f65131'
     },
-    cover: {
-        height: 160,
-        resizeMode: 'cover',
-        backgroundColor: '#131F2B',
+    common: {
+        marginTop: 14,
+        paddingLeft: 10
+    },
+    header: {
+        height: 20,
+    },
+    header2: {
+        height: 30,
+        backgroundColor: '#eee',
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 30
+    },
+    selectedItemStyle: {
+        backgroundColor: '#f65131'
+    },
+
+    titleText: {
+        fontWeight: 'bold'
+    },
+
+    selectedTitleText: {
+        color: 'white'
     },
     hea: {
         flex: 1,
@@ -252,53 +246,30 @@ const styles = StyleSheet.create({
         width: null,
         resizeMode: 'cover',
     },
-    tabLabel: {
-        margin: 8,
-        fontSize: 13,
-        color: '#fff',
+    cover: {
+        height: 160,
+        resizeMode: 'cover',
+        backgroundColor: '#131F2B',
     },
 
-    tabIndicator: {
-        backgroundColor: '#F65131'
-    },
-
-    quoteContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 24,
-    },
-
-    quoteMarks: {
-        alignSelf: 'flex-start',
-        color: '#E91E63',
-        fontSize: 36,
-        left: -8,
-        bottom: -42,
-        marginTop: 64,
-    },
-
-    quoteText: {
-        color: '#222',
-        fontSize: 18,
-        lineHeight: 27,
-        textAlign: 'center',
-        margin: 8,
-    },
-
-    quoteAuthor: {
-        color: '#888',
-        fontSize: 12,
-        fontStyle: 'italic',
+    buttonsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 12,
     },
 
     button: {
-        margin: 16,
-        color: '#0084FF',
+        height: 40,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: '#E91E63',
+        borderRadius: 24,
+        margin: 6,
     },
 
-    selectedTab: {
-        backgroundColor: '#eee',
+    buttonText: {
+        color: '#FFF',
+        fontSize: 12,
     }
 })
 

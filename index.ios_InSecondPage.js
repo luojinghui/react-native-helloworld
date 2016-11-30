@@ -26,10 +26,9 @@ import {
     TabNavigationItem as TabItem,
     DrawerNavigation,
     DrawerNavigationItem,
-    SlidingTabNavigation,
-    SlidingTabNavigationItem
 } from '@exponent/ex-navigation';
 import ListItem from './src/component/ListItem';
+
 
 const Router = createRouter(() => ({
     home: () => HomeScreen,
@@ -46,67 +45,37 @@ class Homes extends Component {
     render() {
         return(
             <View style={styles.container}>
-                <SlidingTabNavigation
-                    id="tab"
-                    navigatorUID="tab"
-                    initialTab="first"
-                    renderLabel={this._renderLabel}
-                    barBackgroundColor="#333"
-                    indicatorStyle={styles.tabIndicator}>
-                    <SlidingTabNavigationItem id="first">
-                        <View style={styles.quoteContainer}>
-                            <Text style={styles.quoteMarks}>“</Text>
-                            <Text style={styles.quoteText}>R2D2, you know better than to trust a strange computer!</Text>
-                            <Text style={styles.quoteAuthor}>C3PO</Text>
-                            <TouchableOpacity onPress={this._goToSecondTab}>
-                                <Text style={{color: "#333"}}>this is icon</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </SlidingTabNavigationItem>
-                    <SlidingTabNavigationItem id="second">
-                        <View style={styles.quoteContainer}>
-                            <Text style={styles.quoteMarks}>“</Text>
-                            <Text style={styles.quoteText}>The best thing about a boolean is even if you are wrong, you are only off by a bit.</Text>
-                            <Text style={styles.quoteAuthor}>Bryan</Text>
-                            <TouchableOpacity onPress={this._goToFirstTab}>
-                                <Text style={{color: "#333"}}>this is icon2</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </SlidingTabNavigationItem>
-                </SlidingTabNavigation>
+                <Text style={styles.title}>Examples</Text>
+                <ListItem
+                    title="Tab Navigation"
+                    description="iOS style tab bar based navigation"
+                    onPress={this._goToScreen('posts')}
+                />
+                <ListItem
+                    title="Sliding Tab Navigation"
+                    description="Material design style swipeable tab navigation"
+                    onPress={this._goToScreen('profile')}
+                />
+                <ListItem
+                    title="Alert Bars"
+                    description="Local alert bars for showing temporary messages"
+                    onPress={this._goToScreen('homes')}
+                />
             </View>
         )
     }
 
     static route = {
         navigationBar: {
-            title: 'Sliding Tab',
-            ...SlidingTabNavigation.navigationBarStyles,
+            title: 'Custom NavigationBar',
+            tintColor: "#666",
+            renderBackground: (props) => <View><Image style={[styles.bgImage]} source={{uri: 'http://il9.picdn.net/shutterstock/videos/3951179/thumb/1.jpg'}} resizeMode={'cover'} /></View>,
         },
     }
 
-    _goToFirstTab = () => {
-        this.props.navigation.performAction(({ tabs, stacks }) => {
-            tabs('sliding').jumpToTab('first');
-        });
-    };
-
-    _goToSecondTab = () => {
-        this.props.navigation.performAction(({ tabs, stacks }) => {
-            tabs('sliding').jumpToTab('second');
-        });
-    };
-
-    _renderLabel = ({route}) => {
-        let title;
-        if (route.key === 'first') {
-            title = '行业';
-        } else if (route.key === 'second') {
-            title = '领域';
-        }
-
-        return <Text style={styles.tabLabel}>{title.toUpperCase()}</Text>;
-    };
+    _goToScreen = name => () => {
+        this.props.navigator.push(Router.getRoute(name));
+    }
 }
 
 class Profile extends Component {
@@ -237,14 +206,33 @@ class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fafafa'
+    selectedTab: {
+        backgroundColor: '#f65131'
     },
-    cover: {
-        height: 160,
-        resizeMode: 'cover',
-        backgroundColor: '#131F2B',
+    common: {
+        marginTop: 14,
+        paddingLeft: 10
+    },
+    header: {
+        height: 20,
+    },
+    header2: {
+        height: 30,
+        backgroundColor: '#eee',
+        flex: 1,
+        alignItems: 'center',
+        marginTop: 30
+    },
+    selectedItemStyle: {
+        backgroundColor: '#f65131'
+    },
+
+    titleText: {
+        fontWeight: 'bold'
+    },
+
+    selectedTitleText: {
+        color: 'white'
     },
     hea: {
         flex: 1,
@@ -252,53 +240,44 @@ const styles = StyleSheet.create({
         width: null,
         resizeMode: 'cover',
     },
-    tabLabel: {
-        margin: 8,
-        fontSize: 13,
-        color: '#fff',
+    cover: {
+        height: 160,
+        resizeMode: 'cover',
+        backgroundColor: '#131F2B',
     },
 
-    tabIndicator: {
-        backgroundColor: '#F65131'
-    },
-
-    quoteContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 24,
-    },
-
-    quoteMarks: {
-        alignSelf: 'flex-start',
-        color: '#E91E63',
-        fontSize: 36,
-        left: -8,
-        bottom: -42,
-        marginTop: 64,
-    },
-
-    quoteText: {
-        color: '#222',
-        fontSize: 18,
-        lineHeight: 27,
-        textAlign: 'center',
-        margin: 8,
-    },
-
-    quoteAuthor: {
-        color: '#888',
-        fontSize: 12,
-        fontStyle: 'italic',
+    buttonsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 12,
     },
 
     button: {
-        margin: 16,
-        color: '#0084FF',
+        height: 40,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: '#E91E63',
+        borderRadius: 24,
+        margin: 6,
     },
 
-    selectedTab: {
-        backgroundColor: '#eee',
+    buttonText: {
+        color: '#FFF',
+        fontSize: 12,
+    },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 32,
+        margin: 8,
+    },
+    version: {
+        fontSize: 18,
+    },
+    bgImage: {
+        top: 0,
+        left: 0,
+        right: 0,
+        height: Platform.OS === 'ios' ? 64 : 65,
     }
 })
 
