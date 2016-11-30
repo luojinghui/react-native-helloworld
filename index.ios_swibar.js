@@ -12,31 +12,46 @@ import {
     Image,
     Dimensions,
     ScrollView,
+    TouchableOpacity,
     TouchableHighlight
 } from 'react-native';
 
 import {
     createRouter,
     NavigationProvider,
-    StackNavigation
+    StackNavigation,
+    withNavigation,
+    connect
 } from '@exponent/ex-navigation';
 
 const Router = createRouter(() => ({
     home: () => HomeScreen,
-    about: () => AboutScreen
+    about: () => AboutScreen,
+    back: () => BackButton
 }));
 
-class Helloworld extends React.Component {
+class Helloworld extends Component {
     render() {
         return (
+            // <NavigationProvider router={Router}>
+            //     <StackNavigation initialRoute={Router.getRoute('home')}/>
+            // </NavigationProvider>
             <NavigationProvider router={Router}>
-                <StackNavigation initialRoute={Router.getRoute('home')}/>
+                <StackNavigation
+                    defaultRouteConfig={{
+                        navigationBar: {
+                            backgroundColor: '#f8f8f8',
+                            tintColor: '#666',
+                        }
+                    }}
+                    initialRoute={Router.getRoute('home')}
+                />
             </NavigationProvider>
         );
     }
 }
 
-class HomeScreen extends React.Component {
+class HomeScreen extends Component {
     static route = {
         navigationBar: {
             title: 'Home',
@@ -57,11 +72,11 @@ class HomeScreen extends React.Component {
     }
 
     _goToAbout = () => {
-        this.props.navigator.push(Router.getRoute('about'));
+        this.props.navigator.push(Router.getRoute('back'));
     }
 }
 
-class AboutScreen extends React.Component {
+class AboutScreen extends Component {
     static route = {
         navigationBar: {
             title: 'About',
@@ -72,16 +87,58 @@ class AboutScreen extends React.Component {
         return (
             <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
                 <Text>AboutScreen!</Text>
-                {/*<Text onPress={this._goBackHome}>*/}
-                {/*Go back home*/}
-                {/*</Text>*/}
+                <Text onPress={this._goBackHome}>
+                    Go back home
+                </Text>
             </View>
         )
     }
 
-    // _goBackHome = () => {
-    //     this.props.navigator.pop();
-    // }
+    _goBackHome = () => {
+        this.props.navigator.pop();
+    }
+}
+
+@withNavigation
+class BackButton extends React.Component {
+    static route = {
+        navigationBar: {
+            title: 'back',
+            renderRight: (route, props) => <SignOutButton />
+        }
+    }
+
+    render() {
+        return (
+            <View>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+                <Text onPress={this._goBack}>Go back</Text>
+            </View>
+        )
+    }
+
+    _goBack = () => {
+        if (this.props.navigator.getCurrentIndex() > 0) {
+            this.props.navigator.pop();
+        }
+    }
+}
+
+class SignOutButton extends Component {
+    render() {
+        return (
+            <TouchableOpacity >
+                <Text style={{marginTop: 14, color: '#666', fontWeight: 'bold'}}>Sign out</Text>
+            </TouchableOpacity>
+        );
+    }
 }
 
 AppRegistry.registerComponent('Helloworld', () => Helloworld);
