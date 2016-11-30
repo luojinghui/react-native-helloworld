@@ -1,177 +1,33 @@
-/**
- * Created by: Luojinghui/luojinghui424@gmail.com
- * Date: 2016/11/29
- * Time: 下午5:56
- */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, {Component} from 'react';
 import {
     AppRegistry,
     StyleSheet,
-    Image,
     View,
     Text,
+    Image,
+    Dimensions,
     ScrollView,
-    TextInput,
-    TouchableHighlight,
-    SegmentedControlIOS,
-    Platform
+    TouchableHighlight
 } from 'react-native';
 
-// import {
-//     StackNavigation,
-//     TabNavigation,
-//     TabItem,
-//     TabNavigationItem,
-//     withNavigation, createRouter
-// } from '@exponent/ex-navigation';
+import { withNavigation } from '@exponent/ex-navigation';
 
+@withNavigation
 // const Router = createRouter(() => ({
-//     home: () => Home,
-//     posts: () => Posts,
-//     profile: () => Profile
+//     home: () => HomeScreen,
+//     about: () => AboutScreen
 // }));
 
-// class Helloworld extends Component {
-//     render() {
-//         let pic = {
-//             uri: 'https://luojinghui.github.io/gallery-by-react/dist/assets/43af53fe5478f068b48b0fad9895e6f7.jpg'
-//         };
-//
-//         return (
-//             <View style={styles.container}>
-//                 <Image source={pic} style={styles.image}/>
-//                 <Greeting text="Rexxa"/>
-//                 <Greeting text="Jaina"/>
-//                 <Text style={ [styles.text, styles.text2 ]}>it's ok!</Text>
-//             </View>
-//         );
-//     }
-// }
-
-class Helloworld extends Component {
-
-    constructor(props) {
-        super(props)
-    }
-
+class Helloworld extends React.Component {
     render() {
-        let pic = {
-            uri: 'https://luojinghui.github.io/gallery-by-react/dist/assets/43af53fe5478f068b48b0fad9895e6f7.jpg'
-        };
-        // let message = {
-        //     uri: './src/image/Box.png'
-        // }
-
-        return (
-            <View style={{ flex: 1 }} StatusBar={{barStyle: 'light-content'}}>
-                <ScrollView>
-
-                    <View style={{ flex: 1, height:  64, backgroundColor: '#ef4e24', flexDirection: 'row', paddingLeft: 10, alignItems: 'center',paddingTop: 20}}>
-                        <TextInput style={{ flex: 1,height: 36, backgroundColor: "#fff", borderRadius: 4,  fontSize: 14, paddingLeft: 40}} placeholder="搜索专家名称"/>
-                        <Image source={require('./src/image/Box.png')} style={{ height: 20, width: 20, marginLeft: 20, marginRight: 20, marginBottom: 8 }}/>
-                    </View>
-                    <View style={{ flex: 1, flexDirection: 'column' , paddingLeft: 10, paddingRight: 10}}>
-                        <View style={{ flexDirection: 'row', paddingTop: 10}}>
-                            <View style={{ flex: 1, marginRight: 10 , backgroundColor: 'powderblue' }}>
-                                <Image source={pic} style={{flex: 1, height: 222.5}}/>
-                                <Text>sadfasdf</Text>
-                            </View>
-                            <View style={{ flex: 1, backgroundColor: 'skyblue' }}>
-                                <Image source={pic} style={{flex: 1, height: 222.5}}/>
-                                <Text>123</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <SegmentedControlIOS values={['One', 'Two']} style={{marginTop: 20, width: 200}}/>
-                </ScrollView>
-                <View style={{bottom: 0, left: 0, height: 49, shadowColor: '#333'}}>
-                    <Text>123123</Text>
-                </View>
-            </View>
-        );
-    }
-}
-
-class Greeting extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { showText: true };
-
-        setInterval(() => {
-            this.setState({ showText: !this.state.showText });
-        }, 1000);
+        return <Text onPress={this._goBack}>Go back</Text>
     }
 
-    render() {
-        let showText = this.state.showText ? this.props.text : this.props.text.substr(1);
-
-        return (
-            <Text style={ styles.text }>{showText}</Text>
-        );
+    _goBack = () => {
+        if (this.props.navigator.getCurrentIndex() > 0) {
+            this.props.navigator.pop();
+        }
     }
 }
-
-const Home = () => {
-    return (
-        <Text>home</Text>
-    )
-}
-const Posts = () => {
-    return (
-        <Text>Posts</Text>
-    )
-}
-const Profile = () => {
-    return (
-        <Text>Profile</Text>
-    )
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#EEE'
-    },
-    text: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#f65131'
-    },
-    text2: {
-        color: '#333'
-    },
-    image: {
-        marginTop: 20,
-        width: 100,
-        height: 100,
-        borderRadius: 4,
-        borderColor: '#f65131',
-        padding: 10
-    },
-    navBar: {
-        height: 64,
-        backgroundColor: '#CCC'
-    },
-    row: {
-        padding: 10,
-        height: 44,
-    },
-    tabItemContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tabTitleText: {
-        fontSize: 11,
-
-    }
-});
 
 AppRegistry.registerComponent('Helloworld', () => Helloworld);
