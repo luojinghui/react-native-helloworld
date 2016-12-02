@@ -27,7 +27,7 @@ import {
     DrawerNavigation,
     DrawerNavigationItem,
 } from '@exponent/ex-navigation';
-import ListItem from './src/component/ListItem';
+import ListItem from './component/ListItem';
 
 
 const Router = createRouter(() => ({
@@ -192,7 +192,11 @@ class HomeScreen extends Component {
 
     _renderHeader = () => {
         return (
-            <Image source={require('./src/image/sky22.jpg')} style={styles.hea}></Image>
+            <View>
+                <Image source={require('./image/sky22.jpg')} style={styles.hea}></Image>
+                <Text>123123</Text>
+                <Text>qweqwe</Text>
+            </View>
         );
     };
 
@@ -281,4 +285,4 @@ const styles = StyleSheet.create({
     }
 })
 
-AppRegistry.registerComponent('Helloworld', () => Helloworld);
+export default Helloworld;
