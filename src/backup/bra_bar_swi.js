@@ -1,5 +1,10 @@
 /**
  * Created by: Luojinghui/luojinghui424@gmail.com
+ * Date: 2016/12/2
+ * Time: 上午11:16
+ */
+/**
+ * Created by: Luojinghui/luojinghui424@gmail.com
  * Date: 2016/11/30
  * Time: 上午11:05
  */
@@ -22,13 +27,13 @@ import {
     createRouter,
     NavigationProvider,
     StackNavigation,
+    TabNavigation,
+    TabNavigationItem as TabItem,
     DrawerNavigation,
     DrawerNavigationItem,
 } from '@exponent/ex-navigation';
 import ListItem from './component/ListItem';
-import Drawer from 'react-native-drawer'
-import ControlPanel from './component/ControlPanel'
-import Main from './component/Main'
+
 
 const Router = createRouter(() => ({
     home: () => HomeScreen,
@@ -37,62 +42,12 @@ const Router = createRouter(() => ({
     profile: () => Profile
 }));
 
-class Posts extends Component {
-    constructor(props) {
-        super(props)
-    }
-    closeDrawer = () => {
-        this._drawer.close()
-    };
-    openDrawer = () => {
-        this._drawer.open()
-    };
-
-    render() {
-        return(
-            <Drawer
-                side="right"
-                type="displace"
-
-                panOpenMask={0.9}
-                tweenEasing="linear"
-                tweenHandlerOn="material"
-                tweenDuration={300}
-                panThreshold={.2}
-                openDrawerOffset={100}
-                ref={(ref) => this._drawer = ref}
-                negotiatePan={true}
-
-                content={
-                    <ControlPanel closeDrawer={this.closeDrawer} />
-                }
-                styles={{main: {shadowColor: '#000000', shadowOpacity: 0.3, shadowRadius: 15}}}
-                onOpen={() => {
-                    console.log('onopen')
-                    this.setState({drawerOpen: true})
-                }}
-                onClose={() => {
-                    console.log('onclose')
-                    this.setState({drawerOpen: false})
-                }}
-            >
-                <Main></Main>
-            </Drawer>
-        )
-    }
-
-    static route = {
-        navigationBar: {
-            visible: true,
-            tintColor: "#666",
-            title: 'posts'
-        }
-    }
-}
-
 class Helloworld extends Component {
     render() {
         return (
+            // <NavigationProvider router={Router}>
+            //     <StackNavigation initialRoute={Router.getRoute('home')}/>
+            // </NavigationProvider>
             <NavigationProvider router={Router}>
                 <StackNavigation
                     initialRoute={Router.getRoute('home')}
@@ -132,8 +87,9 @@ class Homes extends Component {
 
     static route = {
         navigationBar: {
-            title: 'Surprise',
-            tintColor: "#666"
+            title: 'Custom NavigationBar',
+            tintColor: "#666",
+            renderBackground: (props) => <View><Image style={[styles.bgImage]} source={{uri: 'http://il9.picdn.net/shutterstock/videos/3951179/thumb/1.jpg'}} resizeMode={'cover'} /></View>,
         },
     }
 
@@ -165,6 +121,31 @@ class Profile extends Component {
             // visible: true,
             tintColor: "#666"
             // title: 'profile'
+        }
+    }
+}
+
+class Posts extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return(
+            <View style={styles.common}>
+                <Text>this is posts static page</Text>
+                <Text>this is posts static page</Text>
+                <Text>this is posts static page</Text>
+                <Text>this is posts static page</Text>
+            </View>
+        )
+    }
+
+    static route = {
+        navigationBar: {
+            visible: true,
+            tintColor: "#666",
+            title: 'posts'
         }
     }
 }
@@ -216,8 +197,9 @@ class HomeScreen extends Component {
     _renderHeader = () => {
         return (
             <View>
-
                 <Image source={require('./image/sky22.jpg')} style={styles.hea}></Image>
+                <Text>123123</Text>
+                <Text>qweqwe</Text>
             </View>
         );
     };

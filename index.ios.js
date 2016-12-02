@@ -3,7 +3,7 @@
  * Date: 2016/11/30
  * Time: 上午11:05
  */
-import React, {AppRegistry} from 'react-native'
+import {AppRegistry} from 'react-native'
 
 import Helloworld from './src/Helloworld'
 
